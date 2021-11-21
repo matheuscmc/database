@@ -19,7 +19,7 @@ class Customer(Model):
         database = db
 
 class Provider(Model):
-    id   = IntegerField(primary_key=True)
+    cnpj   = IntegerField(primary_key=True)
     name = CharField()
 
     class Meta:
@@ -36,8 +36,9 @@ class Product(Model):
     id       = IntegerField(primary_key=True)
     name     = CharField()
     category = ForeignKeyField(Category, field='id')
-    provider = ForeignKeyField(Provider, field='id')
+    provider = ForeignKeyField(Provider, field='cnpj')
     price    = IntegerField()
+    amount   = IntegerField()
     
     class Meta:
         database = db

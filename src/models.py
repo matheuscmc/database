@@ -19,7 +19,7 @@ class Customer(Model):
         database = db
 
 class Provider(Model):
-    id   = IntegerField(primary_key=True)
+    cnpj = IntegerField()
     name = CharField()
 
     class Meta:
@@ -36,8 +36,9 @@ class Product(Model):
     id       = IntegerField(primary_key=True)
     name     = CharField()
     category = ForeignKeyField(Category, field='id')
-    provider = ForeignKeyField(Provider, field='id')
+    provider = ForeignKeyField(Provider, field='cnpj')
     price    = IntegerField()
+    amount   = IntegerField()
     
     class Meta:
         database = db
@@ -46,15 +47,7 @@ class Cart(Model):
     id           = IntegerField(primary_key=True)
     owner        = ForeignKeyField(Customer, field='cpf')
     total        = IntegerField()
-    created_at   = DateTimeField()
     payment_type = CharField(max_length=32)
-
-    class Meta:
-        database = db
-
-class CartProduct(Model):
-    cart_id    = ForeignKeyField(Cart, field='id')
-    product_id = ForeignKeyField(Product, field='id')
 
     class Meta:
         database = db
@@ -68,8 +61,7 @@ def init():
         Provider,
         Category,
         Product,
-        Cart,
-        CartProduct
+        Cart
     ])
 
     print('Tables created.')
